@@ -1,10 +1,16 @@
-function App() {
+import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Cart from './pages/Cart'
+import Wishlist from './pages/Wishlist'
+
+function App(){
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-blue-100 text-purple-700">
-      <h1 className="text-4xl font-bold underline">Tailwind is Working!</h1>
-      <p className="mt-4 text-lg">This is a test page.</p>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />}/>
+      <Route path="/cart" element={<Cart />}/>
+      <Route path="/wishlist" element={<Wishlist />}/>
+    </Routes>
   )
 }
 
-export default App;
+export default App
