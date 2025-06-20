@@ -1,11 +1,12 @@
 import Banner from '../components/Banner'
+import ProductGrid from '../components/ProductGrid'
 
 
 function Home() {
   return (
     <div>
       <Banner />
-      {/* We'll add product grid and categories below this later */}
+      <ProductGrid />
     </div>
   )
 }
