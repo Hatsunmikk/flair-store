@@ -1,6 +1,13 @@
-// Example: Home.jsx
+import Banner from '../components/Banner'
+
+
 function Home() {
-  return <div className="text-2xl font-bold p-8">This is the Home Page</div>
+  return (
+    <div>
+      <Banner />
+      {/* We'll add product grid and categories below this later */}
+    </div>
+  )
 }
 
 export default Home
