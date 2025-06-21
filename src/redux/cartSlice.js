@@ -8,11 +8,14 @@ const cartSlice = createSlice(
         },
         reducers: {
             addToCart: (state, action) => {
-                state.items.push(action.payload)
-            },
+                const exists = state.items.find(item => item.id === action.payload.id);
+                if (!exists) {
+        state.items.push(action.payload);
+            }
+        },
 
             removeFromCart: (state, action) => {
-                state.items = state.items.filter(item => item.id !== action.payload);
+               state.items = state.items.filter(item => item.id !== action.payload);
             },
         },
 

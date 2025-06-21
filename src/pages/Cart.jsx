@@ -1,37 +1,42 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { removeFromCart } from "../redux/cartSlice";
 
 function Cart() {
-  const cartItems = useSelector((state) => state.cart.items || []);
+  const cart = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
-      {cartItems.length === 0 ? (
-        <p className="text-gray-500">Your cart is empty.</p>
+      <h2 className="text-2xl font-bold mb-4">Cart</h2>
+      {cart.length === 0 ? (
+        <p>Your cart is empty.</p>
       ) : (
-        <ul className="space-y-4">
-          {cartItems.map((item) => (
-            <li
+        <div className="grid gap-4">
+          {cart.map((item) => (
+            <div
               key={item.id}
-              className="border p-4 rounded-md flex items-center gap-4"
+              className="border p-4 rounded-md shadow-sm flex justify-between items-center"
             >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="h-20 w-20 object-contain"
-              />
-              <div>
-                <h3 className="font-semibold">{item.title}</h3>
-                <p className="text-pink-600 font-bold">${item.price}</p>
+              <div className="flex gap-4 items-center">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="h-16 object-contain"
+                />
+                <span>{item.title}</span>
               </div>
-            </li>
+              <button
+                onClick={() => dispatch(removeFromCart(item.id))}
+                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+              >
+                Remove
+              </button>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
 }
 
 export default Cart;
-
-

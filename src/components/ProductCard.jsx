@@ -1,39 +1,62 @@
-import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/cartSlice";
-import { addToWishlist } from "../redux/wishlistSlice";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  removeFromCart,
+} from "../redux/cartSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../redux/wishlistSlice";
 
 function ProductCard({ product }) {
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items || []);
+  const wishlistItems = useSelector((state) => state.wishlist.items || []);
+
+  const inCart = cartItems.some((item) => item.id === product.id);
+  const inWishlist = wishlistItems.some((item) => item.id === product.id);
 
   return (
-    <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition flex flex-col">
+    <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between">
       <img
         src={product.image}
         alt={product.title}
         className="h-40 object-contain mx-auto mb-2"
       />
       <h3 className="text-lg font-semibold mb-1">{product.title}</h3>
-      <p className="text-pink-600 font-bold mb-2">${product.price}</p>
-      
-      <div className="mt-auto flex gap-2">
+      <p className="text-pink-600 font-bold mb-4">${product.price}</p>
+
+      <div className="flex gap-2 flex-col sm:flex-row">
         <button
-          onClick={() => dispatch(addToCart(product))}
-          className="flex-1 bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 transition"
+          onClick={() =>
+            inCart
+              ? dispatch(removeFromCart(product.id))
+              : dispatch(addToCart(product))
+          }
+          className={`px-4 py-1 rounded ${
+            inCart ? "bg-red-500" : "bg-pink-600"
+          } text-white hover:opacity-90`}
         >
-          Add to Cart
+          {inCart ? "Remove from Cart" : "Add to Cart"}
         </button>
+
         <button
-          onClick={() => dispatch(addToWishlist(product))}
-          className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition"
+          onClick={() =>
+            inWishlist
+              ? dispatch(removeFromWishlist(product.id))
+              : dispatch(addToWishlist(product))
+          }
+          className={`px-4 py-1 rounded ${
+            inWishlist ? "bg-red-500" : "bg-gray-800"
+          } text-white hover:opacity-90`}
         >
-          Wishlist
+          {inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
         </button>
       </div>
     </div>
   );
 }
 
+export default ProductCard;
 
-export default ProductCard
 
