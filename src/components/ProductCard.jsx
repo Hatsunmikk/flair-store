@@ -7,6 +7,7 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../redux/wishlistSlice";
+import { Link } from "react-router-dom";
 
 function ProductCard({ product }) {
   const dispatch = useDispatch();
@@ -18,12 +19,14 @@ function ProductCard({ product }) {
 
   return (
     <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+        <Link to={`/product/${product.id}`}>
       <img
         src={product.image}
         alt={product.title}
         className="h-40 object-contain mx-auto mb-2"
       />
       <h3 className="text-lg font-semibold mb-1">{product.title}</h3>
+      </Link>
       <p className="text-pink-600 font-bold mb-4">${product.price}</p>
 
       <div className="flex gap-2 flex-col sm:flex-row">
