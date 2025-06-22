@@ -1,13 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addToCart,
-  removeFromCart,
-} from "../redux/cartSlice";
-import {
-  addToWishlist,
-  removeFromWishlist,
-} from "../redux/wishlistSlice";
+import { addToCart, removeFromCart } from "../redux/cartSlice";
+import { addToWishlist, removeFromWishlist } from "../redux/wishlistSlice";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function ProductCard({ product }) {
   const dispatch = useDispatch();
@@ -17,25 +12,41 @@ function ProductCard({ product }) {
   const inCart = cartItems.some((item) => item.id === product.id);
   const inWishlist = wishlistItems.some((item) => item.id === product.id);
 
+  const handleCartClick = () => {
+    if (inCart) {
+      dispatch(removeFromCart(product.id));
+      toast.info("Removed from cart");
+    } else {
+      dispatch(addToCart(product));
+      toast.success("Added to cart!");
+    }
+  };
+
+  const handleWishlistClick = () => {
+    if (inWishlist) {
+      dispatch(removeFromWishlist(product.id));
+      toast.info("Removed from wishlist");
+    } else {
+      dispatch(addToWishlist(product));
+      toast.success("Added to wishlist!");
+    }
+  };
+
   return (
     <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between">
-        <Link to={`/product/${product.id}`}>
-      <img
-        src={product.image}
-        alt={product.title}
-        className="h-40 object-contain mx-auto mb-2"
-      />
-      <h3 className="text-lg font-semibold mb-1">{product.title}</h3>
+      <Link to={`/product/${product.id}`}>
+        <img
+          src={product.image}
+          alt={product.title}
+          className="h-40 object-contain mx-auto mb-2"
+        />
+        <h3 className="text-lg font-semibold mb-1">{product.title}</h3>
       </Link>
       <p className="text-pink-600 font-bold mb-4">${product.price}</p>
 
       <div className="flex gap-2 flex-col sm:flex-row">
         <button
-          onClick={() =>
-            inCart
-              ? dispatch(removeFromCart(product.id))
-              : dispatch(addToCart(product))
-          }
+          onClick={handleCartClick}
           className={`px-4 py-1 rounded ${
             inCart ? "bg-red-500" : "bg-pink-600"
           } text-white hover:opacity-90`}
@@ -44,11 +55,7 @@ function ProductCard({ product }) {
         </button>
 
         <button
-          onClick={() =>
-            inWishlist
-              ? dispatch(removeFromWishlist(product.id))
-              : dispatch(addToWishlist(product))
-          }
+          onClick={handleWishlistClick}
           className={`px-4 py-1 rounded ${
             inWishlist ? "bg-red-500" : "bg-gray-800"
           } text-white hover:opacity-90`}
@@ -61,5 +68,6 @@ function ProductCard({ product }) {
 }
 
 export default ProductCard;
+
 
 

@@ -1,9 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromWishlist } from "../redux/wishlistSlice";
+import { toast } from "react-toastify";
 
 function Wishlist() {
   const wishlist = useSelector((state) => state.wishlist.items);
   const dispatch = useDispatch();
+
+  const handleRemove = (id) => {
+    dispatch(removeFromWishlist(id));
+    toast.info("Removed from wishlist");
+  };
 
   return (
     <div className="p-4">
@@ -26,7 +32,7 @@ function Wishlist() {
                 <span>{item.title}</span>
               </div>
               <button
-                onClick={() => dispatch(removeFromWishlist(item.id))}
+                onClick={() => handleRemove(item.id)}
                 className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
               >
                 Remove
@@ -40,3 +46,4 @@ function Wishlist() {
 }
 
 export default Wishlist;
+

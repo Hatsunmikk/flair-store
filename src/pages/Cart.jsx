@@ -1,9 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart } from "../redux/cartSlice";
+import { toast } from "react-toastify";
 
 function Cart() {
   const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
+
+  const handleRemove = (id) => {
+    dispatch(removeFromCart(id));
+    toast.info("Removed from cart");
+  };
 
   return (
     <div className="p-4">
@@ -26,7 +32,7 @@ function Cart() {
                 <span>{item.title}</span>
               </div>
               <button
-                onClick={() => dispatch(removeFromCart(item.id))}
+                onClick={() => handleRemove(item.id)}
                 className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
               >
                 Remove
@@ -40,3 +46,4 @@ function Cart() {
 }
 
 export default Cart;
+
