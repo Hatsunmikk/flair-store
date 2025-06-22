@@ -9,13 +9,15 @@ import {
   removeFromWishlist,
 } from "../redux/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
+import ProductCard from "../components/ProductCard";
 
 function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
+  const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const wishlistItems = useSelector((state) => state.wishlist.items);
 
@@ -28,7 +30,16 @@ function ProductDetail() {
       const data = await res.json();
       setProduct(data);
       setLoading(false);
+
+      // Fetch related products by category
+      const allRes = await fetch("https://fakestoreapi.com/products");
+      const allProducts = await allRes.json();
+      const related = allProducts.filter(
+        (p) => p.category === data.category && p.id !== data.id
+      );
+      setRelatedProducts(related);
     };
+
     fetchProduct();
   }, [id]);
 
@@ -36,7 +47,7 @@ function ProductDetail() {
   if (!product) return <p className="text-center text-red-500">Product not found.</p>;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto">
       <div className="flex flex-col md:flex-row gap-8 items-center">
         <img src={product.image} alt={product.title} className="w-64 h-64 object-contain" />
         <div className="flex-1">
@@ -75,9 +86,21 @@ function ProductDetail() {
           </div>
         </div>
       </div>
+
+      {relatedProducts.length > 0 && (
+        <div className="mt-12">
+          <h3 className="text-2xl font-bold mb-4 text-center">You Might Also Like</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {relatedProducts.map((item) => (
+              <ProductCard key={item.id} product={item} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default ProductDetail;
+
 
