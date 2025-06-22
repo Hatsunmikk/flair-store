@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromWishlist } from "../redux/wishlistSlice";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 function Wishlist() {
   const wishlist = useSelector((state) => state.wishlist.items);
@@ -23,14 +24,17 @@ function Wishlist() {
               key={item.id}
               className="border p-4 rounded-md shadow-sm flex justify-between items-center"
             >
-              <div className="flex gap-4 items-center">
+              <Link
+                to={`/product/${item.id}`}
+                className="flex gap-4 items-center hover:underline"
+              >
                 <img
                   src={item.image}
                   alt={item.title}
                   className="h-16 object-contain"
                 />
                 <span>{item.title}</span>
-              </div>
+              </Link>
               <button
                 onClick={() => handleRemove(item.id)}
                 className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
@@ -46,4 +50,5 @@ function Wishlist() {
 }
 
 export default Wishlist;
+
 
