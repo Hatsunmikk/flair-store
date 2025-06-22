@@ -10,6 +10,7 @@ import {
 } from "../redux/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../components/ProductCard";
+import { toast } from "react-toastify";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -59,10 +60,16 @@ function ProductDetail() {
 
           <div className="mt-4 flex gap-3 flex-col sm:flex-row">
             <button
-              onClick={() =>
-                inCart
-                  ? dispatch(removeFromCart(product.id))
-                  : dispatch(addToCart(product))
+              onClick={() => {
+                if (inCart) {
+               dispatch(removeFromCart(product.id));
+               toast.info("Removed from cart");
+                 } else {
+                     dispatch(addToCart(product));
+                       toast.success("Added to cart!");
+                 }
+              }
+                
               }
               className={`px-4 py-2 rounded ${
                 inCart ? "bg-red-500" : "bg-pink-600"
@@ -72,10 +79,16 @@ function ProductDetail() {
             </button>
 
             <button
-              onClick={() =>
-                inWishlist
-                  ? dispatch(removeFromWishlist(product.id))
-                  : dispatch(addToWishlist(product))
+              onClick={() =>{
+                if (inWishlist) {
+                   dispatch(removeFromWishlist(product.id));
+                   toast.info("Removed from wishlist");
+                  } else {
+                     dispatch(addToWishlist(product));
+                     toast.success("Added to wishlist!");
+                  } 
+              }
+                
               }
               className={`px-4 py-2 rounded ${
                 inWishlist ? "bg-red-500" : "bg-gray-800"
