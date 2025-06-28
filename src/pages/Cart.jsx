@@ -22,44 +22,49 @@ function Cart() {
   );
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Cart</h2>
+    <div className="p-6 max-w-5xl mx-auto bg-[#F6F8ED] rounded-xl shadow-sm">
+      <h2 className="text-3xl font-bold mb-6 text-[#2c2c2c]">Your Cart</h2>
+
       {cart.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <p className="text-center text-gray-500">Your cart is empty.</p>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-6">
           {cart.map((item) => (
             <div
               key={item.id}
-              className="border p-4 rounded-md shadow-sm flex flex-col sm:flex-row justify-between items-center"
+              className="flex flex-col sm:flex-row justify-between items-center border border-[#C7D9DD] bg-white rounded-lg shadow p-4"
             >
               <Link
                 to={`/product/${item.id}`}
-                className="flex gap-4 items-center hover:underline"
+                className="flex items-center gap-4 w-full sm:w-1/2 hover:underline"
               >
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="h-16 object-contain"
+                  className="h-20 w-20 object-contain rounded"
                 />
                 <div>
-                  <span className="block font-semibold">{item.title}</span>
-                  <span className="text-sm text-gray-600">${item.price.toFixed(2)} each</span>
-                  <p className="text-sm">Subtotal: ${(item.price * item.quantity).toFixed(2)}</p>
+                  <h3 className="font-semibold text-[#2c2c2c]">{item.title}</h3>
+                  <p className="text-sm text-gray-600">
+                    ${item.price.toFixed(2)} each
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Subtotal: ${(item.price * item.quantity).toFixed(2)}
+                  </p>
                 </div>
               </Link>
 
-              <div className="flex items-center gap-2 mt-4 sm:mt-0">
+              <div className="flex items-center gap-3 mt-4 sm:mt-0">
                 <button
                   onClick={() => dispatch(decreaseQuantity(item.id))}
-                  className="bg-gray-200 px-2 rounded text-lg hover:bg-gray-300"
+                  className="bg-[#D5E5D5] text-[#2c2c2c] px-3 py-1 rounded hover:bg-[#C7D9DD]"
                 >
                   −
                 </button>
-                <span>{item.quantity}</span>
+                <span className="px-2">{item.quantity}</span>
                 <button
                   onClick={() => dispatch(increaseQuantity(item.id))}
-                  className="bg-gray-200 px-2 rounded text-lg hover:bg-gray-300"
+                  className="bg-[#D5E5D5] text-[#2c2c2c] px-3 py-1 rounded hover:bg-[#C7D9DD]"
                 >
                   +
                 </button>
@@ -73,8 +78,10 @@ function Cart() {
             </div>
           ))}
 
-          <div className="text-right font-semibold text-lg mt-6">
-            Total: ${totalPrice.toFixed(2)}
+          <div className="text-right mt-8">
+            <h4 className="text-xl font-semibold text-[#2c2c2c]">
+              Total: ${totalPrice.toFixed(2)}
+            </h4>
           </div>
         </div>
       )}
@@ -83,3 +90,4 @@ function Cart() {
 }
 
 export default Cart;
+
