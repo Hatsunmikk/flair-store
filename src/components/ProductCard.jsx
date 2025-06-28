@@ -4,7 +4,7 @@ import { addToWishlist, removeFromWishlist } from "../redux/wishlistSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-function ProductCard({ product }) {
+function ProductCard({ product, index = 0 }) {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items || []);
   const wishlistItems = useSelector((state) => state.wishlist.items || []);
@@ -33,7 +33,11 @@ function ProductCard({ product }) {
   };
 
   return (
-    <div className="bg-[#EEF1DA] border border-[#C7D9DD] rounded-xl p-4 shadow-md hover:shadow-lg transition transform hover:-translate-y-1 flex flex-col justify-between">
+    <div
+      data-aos="fade-up"
+      data-aos-delay={index * 100}
+      className="bg-[#EEF1DA] border border-[#C7D9DD] rounded-xl p-4 shadow-md hover:shadow-lg transition transform hover:-translate-y-1 flex flex-col justify-between"
+    >
       <Link to={`/product/${product.id}`}>
         <img
           src={product.image}
@@ -68,6 +72,7 @@ function ProductCard({ product }) {
 }
 
 export default ProductCard;
+
 
 
 
