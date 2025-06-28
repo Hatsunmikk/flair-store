@@ -1,11 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "../redux/cartSlice";
+import { addToCart } from "../redux/cartSlice";
 import { addToWishlist, removeFromWishlist } from "../redux/wishlistSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+
+// ⭐ Star Rating Component
+function StarRating({ rating }) {
+  const stars = Math.round(rating);
+  return (
+    <div className="flex text-yellow-500 text-sm mb-1">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <span key={i}>{i < stars ? "★" : "☆"}</span>
+      ))}
+    </div>
+  );
+}
 
 function ProductCard({ product, index = 0 }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.items || []);
   const wishlistItems = useSelector((state) => state.wishlist.items || []);
 
@@ -14,8 +28,7 @@ function ProductCard({ product, index = 0 }) {
 
   const handleCartClick = () => {
     if (inCart) {
-      dispatch(removeFromCart(product.id));
-      toast.info("Removed from cart");
+      navigate("/cart");
     } else {
       dispatch(addToCart(product));
       toast.success("Added to cart!");
@@ -36,42 +49,52 @@ function ProductCard({ product, index = 0 }) {
     <div
       data-aos="fade-up"
       data-aos-delay={index * 100}
-      className="bg-[#EEF1DA] border border-[#C7D9DD] rounded-xl p-4 shadow-md hover:shadow-lg transition transform hover:-translate-y-1 flex flex-col justify-between"
+      className="bg-[#EEF1DA] border border-[#C7D9DD] rounded-xl p-4 shadow-md hover:shadow-lg transition transform hover:-translate-y-1 flex flex-col justify-between relative"
     >
+      {/* Wishlist Icon */}
+      <div
+        className="absolute top-3 right-3 text-[#ADB2D4] cursor-pointer"
+        onClick={handleWishlistClick}
+      >
+        {inWishlist ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
+      </div>
+
       <Link to={`/product/${product.id}`}>
         <img
           src={product.image}
           alt={product.title}
           className="h-40 object-contain mx-auto mb-3"
         />
-        <h3 className="text-md font-semibold mb-1 text-gray-800">{product.title}</h3>
+        <h3 className="text-md font-semibold mb-1 text-gray-800">
+          {product.title}
+        </h3>
       </Link>
-      <p className="text-[#ADB2D4] font-bold mb-4 text-lg">${product.price}</p>
 
-      <div className="flex gap-2 flex-col sm:flex-row">
-        <button
-          onClick={handleCartClick}
-          className={`px-4 py-1 rounded font-medium ${
-            inCart ? "bg-red-500" : "bg-[#ADB2D4]"
-          } text-white hover:opacity-90`}
-        >
-          {inCart ? "Remove from Cart" : "Add to Cart"}
-        </button>
+      <StarRating rating={product.rating?.rate || 0} />
 
-        <button
-          onClick={handleWishlistClick}
-          className={`px-4 py-1 rounded font-medium ${
-            inWishlist ? "bg-red-500" : "bg-[#C7D9DD]"
-          } text-white hover:opacity-90`}
-        >
-          {inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
-        </button>
+      {/* Prices */}
+      <div className="my-2">
+        <p className="text-[#ADB2D4] font-bold text-lg">
+          ${(product.price * 0.9).toFixed(2)}
+        </p>
+        <p className="text-gray-500 text-sm line-through">
+          ${product.price.toFixed(2)}
+        </p>
       </div>
+
+      {/* Add to Cart / Go to Cart */}
+      <button
+        onClick={handleCartClick}
+        className="px-4 py-1 rounded font-medium bg-[#ADB2D4] text-white hover:opacity-90"
+      >
+        {inCart ? "Go to Cart" : "Add to Cart"}
+      </button>
     </div>
   );
 }
 
 export default ProductCard;
+
 
 
 
