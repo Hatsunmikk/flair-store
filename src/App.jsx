@@ -13,15 +13,21 @@ function App() {
   return (
     <>
       <Header onSearch={setSearchQuery} />
-      <Routes>
-        <Route path="/" element={<Home searchQuery={searchQuery} />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-      </Routes>
+
+      {/* Add top padding to avoid overlap from fixed Header */}
+      <main className="pt-24 px-4"> {/* pt-24 = ~6rem top padding */}
+        <Routes>
+          <Route path="/" element={<Home searchQuery={searchQuery} />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+        </Routes>
+      </main>
+
       <Footer />
     </>
   );
 }
 
 export default App;
+
