@@ -33,22 +33,22 @@ function ProductCard({ product }) {
   };
 
   return (
-    <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+    <div className="bg-[#EEF1DA] border border-[#C7D9DD] rounded-xl p-4 shadow-md hover:shadow-lg transition transform hover:-translate-y-1 flex flex-col justify-between">
       <Link to={`/product/${product.id}`}>
         <img
           src={product.image}
           alt={product.title}
-          className="h-40 object-contain mx-auto mb-2"
+          className="h-40 object-contain mx-auto mb-3"
         />
-        <h3 className="text-lg font-semibold mb-1">{product.title}</h3>
+        <h3 className="text-md font-semibold mb-1 text-gray-800">{product.title}</h3>
       </Link>
-      <p className="text-pink-600 font-bold mb-4">${product.price}</p>
+      <p className="text-[#ADB2D4] font-bold mb-4 text-lg">${product.price}</p>
 
       <div className="flex gap-2 flex-col sm:flex-row">
         <button
           onClick={handleCartClick}
-          className={`px-4 py-1 rounded ${
-            inCart ? "bg-red-500" : "bg-pink-600"
+          className={`px-4 py-1 rounded font-medium ${
+            inCart ? "bg-red-500" : "bg-[#ADB2D4]"
           } text-white hover:opacity-90`}
         >
           {inCart ? "Remove from Cart" : "Add to Cart"}
@@ -56,8 +56,8 @@ function ProductCard({ product }) {
 
         <button
           onClick={handleWishlistClick}
-          className={`px-4 py-1 rounded ${
-            inWishlist ? "bg-red-500" : "bg-gray-800"
+          className={`px-4 py-1 rounded font-medium ${
+            inWishlist ? "bg-red-500" : "bg-[#C7D9DD]"
           } text-white hover:opacity-90`}
         >
           {inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}

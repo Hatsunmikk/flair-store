@@ -1,4 +1,4 @@
-import ProductCard from './ProductCard'
+import ProductCard from './ProductCard';
 
 function ProductGrid({ products, loading, searchQuery = "" }) {
   if (loading) {
@@ -7,20 +7,20 @@ function ProductGrid({ products, loading, searchQuery = "" }) {
 
   const filteredProducts = products.filter((product) =>
     product.title.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  );
 
   if (filteredProducts.length === 0) {
     return <p className="text-center text-red-500">No products found.</p>
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="bg-[#F6F8ED] p-4 rounded-lg grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {filteredProducts.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </div>
-  )
+  );
 }
 
-export default ProductGrid
+export default ProductGrid;
 
