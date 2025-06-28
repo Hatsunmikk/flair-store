@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import Banner from "../components/Banner"
 import ProductGrid from "../components/ProductGrid"
 import CategoryFilter from "../components/CategoryFilter"
+import WhatWeSell from "../components/WhatWeSell"
 
 function Home({ searchQuery = "" }) {
   const [products, setProducts] = useState([])
@@ -26,6 +27,7 @@ function Home({ searchQuery = "" }) {
   return (
     <main className="p-4">
       <Banner />
+      <WhatWeSell />
       <CategoryFilter onSelectCategory={setSelectedCategory} />
       <ProductGrid
         products={filteredProducts}
