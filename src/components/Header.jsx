@@ -68,9 +68,10 @@ function Header({ onSearch }) {
           <button className="hover:text-[#C7D9DD]" title="Notifications">
             <FaBell />
           </button>
-          <button className="text-sm font-medium border border-[#ADB2D4] px-3 py-1 rounded hover:bg-[#EEF1DA] hover:text-[#ADB2D4]">
-            Login
-          </button>
+          <Link to="/login" className="text-sm font-medium border border-[#ADB2D4] px-3 py-1 rounded hover:bg-[#EEF1DA] hover:text-[#ADB2D4]">
+             Login
+          </Link>
+
         </div>
       </div>
     </header>
