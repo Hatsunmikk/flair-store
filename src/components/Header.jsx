@@ -1,15 +1,24 @@
 import { FaShoppingCart, FaHeart, FaSearch, FaBell, FaHome } from "react-icons/fa";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-function Header({ onSearch }) {
+function Header({ onSearch, isLoggedIn }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     onSearch(searchTerm);
     setShowSearch(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userEmail");
+    toast.info("Logged out");
+    navigate("/");
+    window.dispatchEvent(new Event("storage")); // notify App to update isLoggedIn
   };
 
   return (
@@ -57,7 +66,7 @@ function Header({ onSearch }) {
           )}
         </div>
 
-        {/* Right: Icons and Login */}
+        {/* Right: Icons and Login/Logout */}
         <div className="flex items-center gap-5 text-xl text-[#ADB2D4]">
           <Link to="/wishlist" className="hover:text-[#C7D9DD]">
             <FaHeart />
@@ -68,10 +77,22 @@ function Header({ onSearch }) {
           <button className="hover:text-[#C7D9DD]" title="Notifications">
             <FaBell />
           </button>
-          <Link to="/login" className="text-sm font-medium border border-[#ADB2D4] px-3 py-1 rounded hover:bg-[#EEF1DA] hover:text-[#ADB2D4]">
-             Login
-          </Link>
 
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="text-sm font-medium border border-[#ADB2D4] px-3 py-1 rounded hover:bg-[#EEF1DA] hover:text-[#ADB2D4]"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className="text-sm font-medium border border-[#ADB2D4] px-3 py-1 rounded hover:bg-[#EEF1DA] hover:text-[#ADB2D4]"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </header>
@@ -79,4 +100,3 @@ function Header({ onSearch }) {
 }
 
 export default Header;
-

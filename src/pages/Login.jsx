@@ -1,8 +1,7 @@
-// src/pages/Login.jsx
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-function Login() {
+function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -28,10 +27,22 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      toast.success("Login successful!");
-      // Mock logic; you can replace with real API later
+      // Extract name from email
+      const userName = email
+        .split("@")[0]
+        .split(".")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+
+      toast.success(`Welcome, ${userName}!`);
+
+      // Simulate login
+      localStorage.setItem("userEmail", email);
+
       setEmail("");
       setPassword("");
+
+      if (onLogin) onLogin(); // Notify App for redirect/update
     }
   };
 
