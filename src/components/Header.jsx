@@ -74,9 +74,7 @@ function Header({ onSearch, isLoggedIn }) {
           <Link to="/cart" className="hover:text-[#C7D9DD]">
             <FaShoppingCart />
           </Link>
-          <button className="hover:text-[#C7D9DD]" title="Notifications">
-            <FaBell />
-          </button>
+          
 
           {isLoggedIn ? (
             <button
